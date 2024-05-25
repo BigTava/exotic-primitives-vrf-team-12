@@ -15,14 +15,14 @@ impl Player {
         }
     }
 
-    fn draw_card(&mut self, input: &[u8]) {
+    pub fn draw_card(&mut self, input: &[u8]) {
         let mut transcript = Transcript::new(b"VRF");
         transcript.append_message(b"input", input);
         let (io, proof, _) = self.keypair.vrf_sign(transcript);
         self.vrf_in_out = Some((io, proof));
     }
 
-    fn reveal_card(&mut self) -> Option<VRFInOut> {
+    pub fn reveal_card(&mut self) -> Option<VRFInOut> {
         self.vrf_in_out.clone().map(|(io, _)| io)
     }
 }
